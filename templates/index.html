@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>انتخاب واحد</title>
+</head>
+<body>
+
+<h2>لیست دروس ارائه‌شده</h2>
+
+<table border="1">
+<tr>
+<th>نام</th><th>کد</th><th>استاد</th><th>زمان</th><th>عملیات</th>
+</tr>
+{% for c in courses %}
+<tr>
+<td>{{c.name}}</td>
+<td>{{c.code}}</td>
+<td>{{c.prof}}</td>
+<td>{{c.time}}</td>
+<td><button onclick="addCourse('{{c.code}}')">انتخاب</button></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/planner">مشاهده برنامه</a>
+
+<script>
+function addCourse(code){
+fetch('/add',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({code})
+})
+.then(r=>r.json())
+.then(d=>{
+if(d.error) alert(d.error)
+else alert('اضافه شد')
+})
+}
+</script>
+
+</body>
+</html>
